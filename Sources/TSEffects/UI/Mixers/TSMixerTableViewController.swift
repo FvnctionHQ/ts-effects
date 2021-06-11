@@ -55,7 +55,7 @@ class TSMixerTableViewController: UITableViewController, TSEffectsModuleUIInterf
 
         tableView.separatorStyle = .none
         tableView.backgroundColor = .white
-        tableView.register(UINib(nibName: "TSMixerTableViewCell", bundle: nil), forCellReuseIdentifier: "TSMixerTableViewCell")
+        tableView.register(UINib(nibName: "TSMixerTableViewCell", bundle: Bundle.module), forCellReuseIdentifier: "TSMixerTableViewCell")
         
         let headerView = UIView()
         headerView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 80)

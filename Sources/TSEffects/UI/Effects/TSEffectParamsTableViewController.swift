@@ -50,7 +50,7 @@ class TSEffectParamsTableViewController: UITableViewController {
         tableView.separatorColor = .darkGray
         tableView.separatorStyle = .none
         tableView.backgroundColor = .black
-        tableView.register(UINib(nibName: "TSEffectParamsTableViewCell", bundle: nil), forCellReuseIdentifier: "TSEffectParamsTableViewCell")
+        tableView.register(UINib(nibName: "TSEffectParamsTableViewCell", bundle: Bundle.module), forCellReuseIdentifier: "TSEffectParamsTableViewCell")
     }
 
     // MARK: - Table view data source
