@@ -7,6 +7,7 @@
 
 import Foundation
 import AVFAudio
+import AVFoundation
 import AudioKit
 import TSUtils
 import SoundpipeAudioKit
@@ -64,10 +65,8 @@ extension TSEffectsModuleRack: TSEffectsModuleRackInterface {
         delegate?.effectsRackDidStartProcessing()
         
         stop()
-            
         processFileWithFX1(currentSegment: source!) { resultURL in
-            
-            
+
             self.delegate?.effectsRackDidFinishProcessing()
             
             if (resultURL != nil) {
@@ -86,7 +85,7 @@ extension TSEffectsModuleRack: TSEffectsModuleRackInterface {
     var fileName: String {
         
         get {
-            ""
+            fName
         }
     }
     
@@ -99,8 +98,8 @@ extension TSEffectsModuleRack: TSEffectsModuleRackInterface {
     func start(file: AVAudioFile) {
         setup()
         fName = file.url.lastPathComponent
-      //  _start(url: file.url, fileName: fName)
-        onLoadFile(file: file)
+        _start(url: file.url, fileName: fName)
+     //   onLoadFile(file: file)
     }
     
     func play() {
@@ -108,6 +107,7 @@ extension TSEffectsModuleRack: TSEffectsModuleRackInterface {
         if (!engine.avEngine.isRunning) {
            try! engine.start()
         }
+      
         self.player.start()
         self.playbackTimer = Timer.scheduledTimer(timeInterval: 0.001, target: self, selector: #selector(updatePlaybackProgress), userInfo: nil, repeats: true)
 
@@ -149,7 +149,7 @@ extension TSEffectsModuleRack: TSEffectsModuleRackInterface {
         bandPass = nil
         
         source = nil
-        player.file = nil
+     
         
         delayDryWetMixer = nil
         bitcrusherDryWetMixer = nil
@@ -280,7 +280,8 @@ class TSEffectsModuleRack: NSObject {
     }
     
     func _start(url: URL, fileName: String) {
-        
+      
+        player.reset()
         fName = fileName
        // let tempDirectory = FileManager.default.temporaryDirectory
        // let tempPath = tempDirectory.appendingPathComponent("\(url.lastPathComponent)")
@@ -463,9 +464,10 @@ class TSEffectsModuleRack: NSObject {
     
     func processFileWithFX1(currentSegment: AVAudioFile, completion : @escaping  TSFXProcessCallback) {
         
+        let path1 = "r1-\(currentSegment.url.lastPathComponent)"
         let path = "r-\(currentSegment.url.lastPathComponent)" //"recordedMIDIAudio.caf"
        let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent(path)
-        let format = AVAudioFormat(commonFormat: currentSegment.fileFormat.commonFormat, sampleRate: currentSegment.fileFormat.sampleRate, channels: 1, interleaved: currentSegment.fileFormat.isInterleaved)!
+        let format = AVAudioFormat(commonFormat: .pcmFormatFloat64, sampleRate: 44100, channels: 1, interleaved: true)!
         
         do {
             
@@ -476,23 +478,27 @@ class TSEffectsModuleRack: NSObject {
                 
                 
                 
+                
                 try engine.renderToFile(fileForWriting!, maximumFrameCount: AVAudioFrameCount(currentSegment.length), duration: currentSegment.duration, prerender: {
                     
-                    
-                        self.play()
+                    self.player.play()
+                       
                         
                     }, progress: {  (progress) in
                         
-                       
+                    
                         if (progress == 1) {
-
+                            
+                            
+//                            let newF = fileForWriting!.extract(to: url1, from: 0, to: fileForWriting!.duration)
                             let url = fileForWriting!.url
+                            
                             fileForWriting = nil
                             completion(url)
                             //completion(self.currentSegment!)
 //                            TSDeviceCommManager.sharedInstance.sendFile(fl: self.currentFile! , name: self!.fileName! ,folder: folderPath)
 
-//                            self.start()
+                            self.setup()
                         }
                     })
                 
