@@ -64,20 +64,21 @@ extension TSEffectsModuleRack: TSEffectsModuleRackInterface {
         
         delegate?.effectsRackDidStartProcessing()
         
-        stop()
+        //stop()
+                
         processFileWithFX1(currentSegment: source!) { resultURL in
 
             self.delegate?.effectsRackDidFinishProcessing()
-            
+
             if (resultURL != nil) {
-               
+
                 self.delegate?.effectsRackDidRender(resultURL: resultURL!)
-                
+
             } else {
                 self.delegate?.effectsRackDidFail()
                 TSLog.sI.log(.error, "Failed render")
             }
-            
+
         }
     }
     
@@ -377,95 +378,12 @@ class TSEffectsModuleRack: NSObject {
         
     }
     
-    func onLoadFile(file: AVAudioFile) {
-
-        TSAudioFile.cleanTempDirectory()
-
-        delegate?.effectsRackDidStartProcessing()
-
-        var output: URL = URL(string: "https://fvnction.net")!
-        var fileNameString: String = ""
-        var errorString: String = ""
-
-        DispatchQueue.global(qos: .background).async {
-
-            do {
-                let file = try TSAudioFile(forReading:file.url)
-                self.fName = file.url.deletingPathExtension().lastPathComponent.replacingOccurrences(of: " ", with: "").lowercased(with: .current).appending(".wav")
-
-                let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-                let documentsDirectory = paths[0]
-                let trimmed =  "working_copy" //file.url.deletingPathExtension().lastPathComponent.replacingOccurrences(of: " ", with: "").lowercased(with: .current)
-                let filePath = documentsDirectory.appendingPathComponent(trimmed + ".wav")
-
-                if FileManager.default.fileExists(atPath: filePath.path) {
-                       // Delete file
-                    try! FileManager.default.removeItem(atPath: filePath.path)
-                   }
-
-                TSConverter.convertToWav(filePath: filePath, channelCount: 1, inputFile: file) {  (outputURL, error) in
-
-
-                    if (error != nil) {
-
-                        errorString = "Can not convert file \(file.url.lastPathComponent )"
-
-
-
-
-                     } else {
-
-
-                        fileNameString =  file.url.lastPathComponent
-                        output = outputURL!
-
-
-
-
-
-                     }
-
-
-
-                }
-
-            } catch {
-                errorString = "Can not load file \(file.url.lastPathComponent)"
-
-
-            }
-
-
-
-
-          DispatchQueue.main.async {
-
-//            if (errorString.count > 0) {
-//                TSQOSManager.sharedInstance.reportIssue(severity: .error, className: "ViewController", methodName: "didSelectDocuments", errorString: errorString)
-//                return
-//            }
-
-
-            self.delegate?.effectsRackDidFinishProcessing()
-            self._start(url: output, fileName: fileNameString)
-
-          }
-
-        }
-
-
-
-
-
-
-
-
-    }
+    
     
     func processFileWithFX1(currentSegment: AVAudioFile, completion : @escaping  TSFXProcessCallback) {
         
-        let path1 = "r1-\(currentSegment.url.lastPathComponent)"
-        let path = "r-\(currentSegment.url.lastPathComponent)" //"recordedMIDIAudio.caf"
+        let name = "\(currentSegment.url.deletingPathExtension().lastPathComponent)"
+        let path = "\(name)-fx.caf"
        let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent(path)
         let format = AVAudioFormat(commonFormat: .pcmFormatFloat64, sampleRate: 44100, channels: 1, interleaved: true)!
         
@@ -475,8 +393,6 @@ class TSEffectsModuleRack: NSObject {
             
             
             do {
-                
-                
                 
                 
                 try engine.renderToFile(fileForWriting!, maximumFrameCount: AVAudioFrameCount(currentSegment.length), duration: currentSegment.duration, prerender: {
@@ -489,14 +405,10 @@ class TSEffectsModuleRack: NSObject {
                     
                         if (progress == 1) {
                             
-                            
-//                            let newF = fileForWriting!.extract(to: url1, from: 0, to: fileForWriting!.duration)
                             let url = fileForWriting!.url
                             
                             fileForWriting = nil
                             completion(url)
-                            //completion(self.currentSegment!)
-//                            TSDeviceCommManager.sharedInstance.sendFile(fl: self.currentFile! , name: self!.fileName! ,folder: folderPath)
 
                             self.setup()
                         }
