@@ -11,6 +11,7 @@ import AVFoundation
 import AudioKit
 import TSUtils
 import SoundpipeAudioKit
+import TSLog
 
 public typealias TSFXProcessCallback = (URL?) -> Void
 

@@ -16,6 +16,11 @@ let package = Package(
     ],
     dependencies: [
         .package(
+            name: "TSLog",
+            url: "https://github.com/FvnctionHQ/ts-log.git",
+            .branch("master")
+        ),
+        .package(
             name: "TSUtils",
             url: "https://github.com/linkov/ts-utils.git",
             .branch("master")
@@ -29,7 +34,7 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "TSEffects",
-            dependencies: ["AudioKit", "TSUtils", "EasyPeasy","SoundpipeAudioKit"]),
+            dependencies: ["AudioKit", "TSLog", "TSUtils", "EasyPeasy","SoundpipeAudioKit"]),
         .testTarget(
             name: "TSEffectsTests",
             dependencies: ["TSEffects"]),

@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import AVFoundation
 import TSUtils
-
+import TSLog
 
 public typealias TSEffects = TSEffectsModuleCoordinator
 

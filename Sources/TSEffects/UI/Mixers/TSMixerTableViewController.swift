@@ -10,6 +10,7 @@ import UIKit
 import AudioKit
 import EasyPeasy
 import TSUtils
+import TSLog
 
 class TSMixerTableViewController: UITableViewController, TSEffectsModuleUIInterface {
    
