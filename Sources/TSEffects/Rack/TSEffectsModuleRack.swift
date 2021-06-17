@@ -100,8 +100,7 @@ extension TSEffectsModuleRack: TSEffectsModuleRackInterface {
     func start(file: AVAudioFile) {
         setup()
         fName = file.url.lastPathComponent
-        _start(url: file.url, fileName: fName)
-     //   onLoadFile(file: file)
+        _start(file: file, fileName: fName)
     }
     
     func play() {
@@ -281,13 +280,13 @@ class TSEffectsModuleRack: NSObject {
         }
     }
     
-    func _start(url: URL, fileName: String) {
+    func _start(file: AVAudioFile, fileName: String) {
       
         player.reset()
         fName = fileName
        // let tempDirectory = FileManager.default.temporaryDirectory
        // let tempPath = tempDirectory.appendingPathComponent("\(url.lastPathComponent)")
-        source = try! AVAudioFile(forReading: url)
+        source = file//try! AVAudioFile(forReading: url)
         player.file = source
         
        // player.file = source
