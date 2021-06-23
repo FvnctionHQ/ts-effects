@@ -16,7 +16,22 @@ import TSLog
 public typealias TSFXProcessCallback = (URL?) -> Void
 
 extension TSEffectsModuleRack: TSEffectsModuleRackInterface {
+
    
+    func randomize() {
+        
+        dryWetMixers.forEach { mixer in
+            mixer.mixer.balance = AUValue.random(in: 0.0...1.0)
+            
+            mixer.effect.parameters.forEach { param in
+                
+                changeParameterValue(effectType: mixer.effect, param: param, newValue: AUValue.random(in: param.range))
+            }
+        }
+        
+        startRender()
+    }
+    
     func toggleLoop() {
         player.isLooping = !player.isLooping
     }

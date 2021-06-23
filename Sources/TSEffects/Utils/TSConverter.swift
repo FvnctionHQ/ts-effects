@@ -12,10 +12,10 @@ import AVFoundation
 
 public typealias TSConverterCallback = (URL?, Error?) -> Void
 
-class TSConverter: NSObject {
+public class TSConverter: NSObject {
     
     
-    static func printAudioDescriptionForFile(path: URL) {
+    public static func printAudioDescriptionForFile(path: URL) {
         let file = try! TSAudioFile(forReading: path)
         let asbd: AudioStreamBasicDescription =  file.fileFormat.streamDescription.pointee
         
@@ -30,14 +30,14 @@ class TSConverter: NSObject {
         
     }
     
-    static func toNSData(PCMBuffer: AVAudioPCMBuffer) -> NSData {
+    public static func toNSData(PCMBuffer: AVAudioPCMBuffer) -> NSData {
         let channelCount = 1  // given PCMBuffer channel count is 1
         let channels = UnsafeBufferPointer(start: PCMBuffer.floatChannelData, count: channelCount)
         let ch0Data = NSData(bytes: channels[0], length:Int(PCMBuffer.frameCapacity * PCMBuffer.format.streamDescription.pointee.mBytesPerFrame))
         return ch0Data
     }
 
-    static func toPCMBuffer(data: NSData) -> AVAudioPCMBuffer {
+    public static func toPCMBuffer(data: NSData) -> AVAudioPCMBuffer {
         let audioFormat = AVAudioFormat(commonFormat: AVAudioCommonFormat.pcmFormatInt16, sampleRate: 48000, channels: 1, interleaved: false)  // given NSData audio format
         let PCMBuffer = AVAudioPCMBuffer(pcmFormat: audioFormat!, frameCapacity:  UInt32(data.length) / audioFormat!.streamDescription.pointee.mBytesPerFrame)
         PCMBuffer!.frameLength = PCMBuffer!.frameCapacity
@@ -47,7 +47,7 @@ class TSConverter: NSObject {
     }
     
     
-    static func fileForAudioData(data: NSData) -> TSAudioFile {
+    public static func fileForAudioData(data: NSData) -> TSAudioFile {
         
         let PCMFromData = TSConverter.toPCMBuffer(data: data)
         let fileFromData = try! TSAudioFile(fromAVAudioPCMBuffer: PCMFromData, baseDir: .temp, name: "result")
@@ -57,7 +57,7 @@ class TSConverter: NSObject {
     }
 
     
-    static func audioDataForFile(path: URL) -> NSData? {
+    public static func audioDataForFile(path: URL) -> (NSData?, AVAudioFramePosition?) {
         
         if let file = try? TSAudioFile(forReading: path) {
             
@@ -89,16 +89,16 @@ class TSConverter: NSObject {
             print(err)
             
             if (err != 0) {
-                return nil
+                return  (nil, nil)
             }
             
             let data = NSData(bytesNoCopy: rawAudioBytes, length: audioByteSize, freeWhenDone: true)
             
-            return data
+            return (data, file.length)
             
         } else {
             
-            return nil
+            return  (nil, nil)
             
         }
         
@@ -110,7 +110,7 @@ class TSConverter: NSObject {
     }
     
     
-    static func convertToWav(filePath: URL, channelCount: Int, inputFile: AVAudioFile, completionHandler:  @escaping TSConverterCallback )  {
+    public  static func convertToWav(filePath: URL, channelCount: Int, inputFile: AVAudioFile, completionHandler:  @escaping TSConverterCallback )  {
         
   
         
@@ -138,11 +138,11 @@ class TSConverter: NSObject {
     }
    
     
-    static func convertToWav(channelCount: Int, inputFile: AVAudioFile, completionHandler:  @escaping TSConverterCallback )  {
+    public static func convertToWav(channelCount: Int, inputFileURL: URL, completionHandler:  @escaping TSConverterCallback )  {
         
         // let paths = FileManager.default.temporaryDirectory
         let tempDirectory = FileManager.default.temporaryDirectory
-        let trimmed = inputFile.url.deletingPathExtension().lastPathComponent.replacingOccurrences(of: " ", with: "").lowercased(with: .current)
+        let trimmed = inputFileURL.deletingPathExtension().lastPathComponent.replacingOccurrences(of: " ", with: "").lowercased(with: .current)
         let filePath = tempDirectory.appendingPathComponent(trimmed + ".wav")
         
         
@@ -155,7 +155,7 @@ class TSConverter: NSObject {
         
         
         
-        let converter = FormatConverter(inputURL: inputFile.url, outputURL: filePath, options: options)
+        let converter = FormatConverter(inputURL: inputFileURL, outputURL: filePath, options: options)
         converter.start { (error) in
             
             if (error != nil) {

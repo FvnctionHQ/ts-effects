@@ -19,7 +19,7 @@ import Foundation
 //  set with a PCM Linear Encoding (no compression)
 //  But it can be applied to any readable file (.wav, .m4a, .mp3...)
 //
-extension TSAudioFile {
+public extension TSAudioFile {
 
     /// Normalize an AKAudioFile to have a peak of newMaxLevel dB.
     ///

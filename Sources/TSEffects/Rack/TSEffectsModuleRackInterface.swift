@@ -10,6 +10,7 @@ import AVFAudio
 
 protocol TSEffectsModuleRackInterface {
     
+    func randomize()
     func start(file: AVAudioFile)
     func play()
     func toggleLoop()

@@ -13,14 +13,23 @@ import TSLog
 
 public typealias TSEffects = TSEffectsModuleCoordinator
 
+public enum TSEffectsModuleMode {
+    case standard, fxradom
+}
 
 extension TSEffectsModuleCoordinator: TSEffectsModuleRackDelegate {
     func effectsRackDidStartProcessing() {
-        delegate?.TSEffectsModuleDidRequstShowLoading(module: self)
+        if (mode == .standard) {
+            delegate?.TSEffectsModuleDidRequstShowLoading(module: self)
+        }
+        
     }
     
     func effectsRackDidFinishProcessing() {
-        delegate?.TSEffectsModuleDidRequstShowLoadingDismiss(module: self)
+        if (mode == .standard) {
+            delegate?.TSEffectsModuleDidRequstShowLoadingDismiss(module: self)
+        }
+        
     }
     
     
@@ -31,7 +40,13 @@ extension TSEffectsModuleCoordinator: TSEffectsModuleRackDelegate {
     
     
     func effectsRackDidRender(resultURL: URL) {
-        self.delegate?.TSEffectsModuleDidProvideRender(module: self, resultURL: resultURL)
+        if (mode == .standard) {
+            self.delegate?.TSEffectsModuleDidProvideRender(module: self, resultURL: resultURL)
+        }
+        if (mode == .fxradom) {
+            self.delegate?.TSEffectsModuleDidProvideRandomFX(module: self, resultURL: resultURL)
+        }
+        
     }
     
    
@@ -161,6 +176,14 @@ extension TSEffectsModuleCoordinator: TSEffectsModuleEffectParametersUIDataSourc
 
 extension TSEffectsModuleCoordinator: TSEffectsModuleInterface {
    
+    public func randomizeFx() {
+        
+        effectsLogic.randomize()
+    }
+    
+
+    
+   
     
     public func close() {
         effectsLogic.stopEffects()
@@ -189,10 +212,11 @@ public class TSEffectsModuleCoordinator: NSObject {
     unowned var presentingController: UIViewController?
     var isAnimatedPresentation = false
     var effectsLogic: TSEffectsModuleRackInterface!
+    var mode: TSEffectsModuleMode = .standard
     
-    public required init(file:AVAudioFile, delegate: TSEffectsModuleDelegate) {
+    public required init(file:AVAudioFile, delegate: TSEffectsModuleDelegate, mode: TSEffectsModuleMode) {
         TSLog.sI.logCall()
-        
+        self.mode = mode
         self.delegate = delegate
         super.init()
 
