@@ -14,7 +14,6 @@ public protocol TSEffectsModuleInterface {
     func close()
     func present(in controller: UIViewController, animated: Bool)
     
-    func randomizeFx()
 }
 
 public protocol TSEffectsModuleDelegate: AnyObject {
@@ -23,6 +22,5 @@ public protocol TSEffectsModuleDelegate: AnyObject {
     func TSEffectsModuleDidRequstShowLoadingDismiss(module: TSEffects)
     func TSEffectsModuleDidRequstShowLoading(module: TSEffects)
     
-    func TSEffectsModuleDidProvideRandomFX(module:TSEffects, resultURL: URL)
 }
 

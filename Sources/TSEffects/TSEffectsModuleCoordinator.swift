@@ -43,10 +43,7 @@ extension TSEffectsModuleCoordinator: TSEffectsModuleRackDelegate {
         if (mode == .standard) {
             self.delegate?.TSEffectsModuleDidProvideRender(module: self, resultURL: resultURL)
         }
-        if (mode == .fxradom) {
-            self.delegate?.TSEffectsModuleDidProvideRandomFX(module: self, resultURL: resultURL)
-        }
-        
+
     }
     
    

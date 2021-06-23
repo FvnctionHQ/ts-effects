@@ -150,7 +150,7 @@ extension TSEffectsModuleRack: TSEffectsModuleRackInterface {
             resonator?.stop()
             distortion?.stop()
             bandPass?.stop()
-            bandpassDryWetMixer!.stop()
+            bandpassDryWetMixer?.stop()
             distortionDryWetMixer?.stop()
             mainMixer.stop()
             
@@ -226,6 +226,8 @@ class TSEffectsModuleRack: NSObject {
     
     
     deinit {
+        stop()
+        stopEffects()
         TSLog.sI.logCall()
     }
     
