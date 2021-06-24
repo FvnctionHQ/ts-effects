@@ -18,6 +18,11 @@ public enum TSEffectsModuleMode {
 }
 
 extension TSEffectsModuleCoordinator: TSEffectsModuleRackDelegate {
+  
+    func effectsRackDidFinishResettingFX() {
+        viewController.reloadData()
+    }
+    
     func effectsRackDidStartProcessing() {
         if (mode == .standard) {
             delegate?.TSEffectsModuleDidRequstShowLoading(module: self)
@@ -55,6 +60,11 @@ extension TSEffectsModuleCoordinator: TSEffectsModuleRackDelegate {
 }
 
 extension TSEffectsModuleCoordinator: TSEffectsModuleUIDelegate {
+    
+    func UIdidTouchResetFX() {
+        effectsLogic.reset()
+    }
+    
     
     func UIdidTouchLoop() {
         effectsLogic.toggleLoop()

@@ -12,6 +12,7 @@ public typealias TSParamDidChangeBlock = (Float) -> Void
 
 class TSEffectParamsTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var effectParamValueLabel: UILabel!
     @IBOutlet weak var effectParamNameLabel: UILabel!
     @IBOutlet weak var effectParamSlider: UISlider!
     
@@ -31,7 +32,7 @@ class TSEffectParamsTableViewCell: UITableViewCell {
     func  configureWith(param: TSEffectParameter) {
         self.param = param
         effectParamNameLabel.text = self.param.label
-        
+        effectParamValueLabel.text = "\(self.param.defaultValue)"
         
         if (effectParamSlider != nil) {
             
@@ -43,8 +44,8 @@ class TSEffectParamsTableViewCell: UITableViewCell {
 
     //
            
-            effectParamSlider.thumbTintColor = .lightGray
-            effectParamSlider.tintColor = .lightGray
+            effectParamSlider.thumbTintColor = .darkGray
+            effectParamSlider.tintColor = .darkGray
             
             effectParamSlider.setThumbImage(UIImage(named: "sliderThumb17"), for: .normal)
             effectParamSlider.setThumbImage(UIImage(named: "sliderThumb17"), for: .focused)
@@ -54,7 +55,7 @@ class TSEffectParamsTableViewCell: UITableViewCell {
     }
     
     @IBAction func didChange(_ sender: UISlider) {
-        
+        effectParamValueLabel.text = "\(sender.value.rounded())"
         changeBlock(sender.value)
     }
     

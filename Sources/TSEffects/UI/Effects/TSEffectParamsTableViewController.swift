@@ -61,7 +61,7 @@ class TSEffectParamsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return CGFloat( (self.tableView.bounds.size.height - self.tableView.tableHeaderView!.bounds.size.height) / CGFloat(parameterDataSource.parametersCountFor(effect: effectType)))
+        return CGFloat( ((self.tableView.bounds.size.height - self.tableView.tableHeaderView!.bounds.size.height) - 20) / CGFloat(parameterDataSource.parametersCountFor(effect: effectType)))
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -77,7 +77,13 @@ class TSEffectParamsTableViewController: UITableViewController {
             
             self.parameterDelegate.didChange(parameter: dw, newValue: value, for: self.effectType)
         }
-        cell.backgroundColor = .black
+        
+        if indexPath.row % 2 == 0 {
+            cell.contentView.backgroundColor = .black
+        } else {
+            cell.contentView.backgroundColor = UIColor(hexCode: "#0D0D0D")
+        }
+        
         cell.selectionStyle = .none
         return cell
     }

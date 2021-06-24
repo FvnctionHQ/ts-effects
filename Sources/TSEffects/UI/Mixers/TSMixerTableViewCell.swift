@@ -9,6 +9,7 @@
 import UIKit
 import AudioKit
 import SoundpipeAudioKit
+import TSUtils
 
 public typealias TSParamsDidTapBlock = () -> Void
 public typealias TSEffectSliderDidChangeBlock = () -> Void
@@ -20,9 +21,8 @@ class TSMixerTableViewCell: UITableViewCell {
     var mixer: DryWetMixer?
     let gradient: CAGradientLayer = CAGradientLayer()
     
-    @IBOutlet weak var paramsToggle: UIButton!
+    @IBOutlet weak var paramsToggle: TSButton!
     @IBOutlet weak var slider: UISlider!
-    @IBOutlet weak var mixerNameLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
 //        let colors = [
@@ -32,7 +32,7 @@ class TSMixerTableViewCell: UITableViewCell {
 //        gradient.colors = colors
 //        self.layer.insertSublayer(gradient, at: 0)
         
-        self.contentView.backgroundColor = .white
+        self.contentView.backgroundColor = .black
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -43,7 +43,8 @@ class TSMixerTableViewCell: UITableViewCell {
     
     func  configureWithMixer(mixer: TSDryWetMixer) {
         self.mixer = mixer.mixer
-        mixerNameLabel.text = mixer.name
+        paramsToggle.setTitle(mixer.name, for: .normal)
+        paramsToggle.style(with: .standardLookSmallInactive)
         
         
         if (slider != nil) {

@@ -12,6 +12,11 @@ import AVFoundation
 public typealias TSRandomEffectsModule = TSRandomEffectsModuleCoordinator
 
 extension TSRandomEffectsModuleCoordinator: TSEffectsModuleRackDelegate {
+    func effectsRackDidFinishResettingFX() {
+
+        
+    }
+    
   
     func effectsRackDidFinishPlaying() {
         

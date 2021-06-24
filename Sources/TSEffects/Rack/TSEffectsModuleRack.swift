@@ -17,6 +17,19 @@ public typealias TSFXProcessCallback = (URL?) -> Void
 
 extension TSEffectsModuleRack: TSEffectsModuleRackInterface {
 
+    func reset() {
+        
+        dryWetMixers.forEach { mixer in
+            mixer.mixer.balance = AUValue(0.0)
+            
+            mixer.effect.parameters.forEach { param in
+                
+                changeParameterValue(effectType: mixer.effect, param: param, newValue: param.defaultValue)
+            }
+        }
+
+        delegate?.effectsRackDidFinishResettingFX()
+    }
    
     func randomize() {
         

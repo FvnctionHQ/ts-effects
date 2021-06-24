@@ -23,6 +23,7 @@ class TSMixerTableViewController: UITableViewController, TSEffectsModuleUIInterf
     
     func reloadData() {
         tableView.reloadData()
+        updateDoneBtn()
     }
     
 
@@ -33,6 +34,7 @@ class TSMixerTableViewController: UITableViewController, TSEffectsModuleUIInterf
     var playBtn: UIButton!
     var loopBtn: UIButton!
     var doneBtn: UIButton!
+    var resetFXBtn: UIButton!
     
     required init(effectDataSource: TSEffectsModuleUIDataSource, delegate: TSEffectsModuleUIDelegate, fileName: String) {
         self.effectsDataSoure = effectDataSource
@@ -55,7 +57,7 @@ class TSMixerTableViewController: UITableViewController, TSEffectsModuleUIInterf
         super.viewDidLoad()
 
         tableView.separatorStyle = .none
-        tableView.backgroundColor = .white
+        tableView.backgroundColor = .black
         tableView.register(UINib(nibName: "TSMixerTableViewCell", bundle: Bundle.module), forCellReuseIdentifier: "TSMixerTableViewCell")
         
         let headerView = UIView()
@@ -116,17 +118,21 @@ class TSMixerTableViewController: UITableViewController, TSEffectsModuleUIInterf
         
         
         let footerView = UIView()
-        footerView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 60)
-        footerView.backgroundColor = .white
+        footerView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 80)
+        footerView.backgroundColor = UIColor(hexCode: "#F8F8F8")
         
-        playBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 55, height: 55))
+
+        footerView.layer.cornerRadius = 16
+        footerView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        
+        playBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 75, height: 75))
         playBtn.setImage(UIImage(named: "play-icn"), for: .normal)
         playBtn.tintColor = .black
         playBtn.addTarget(self, action: #selector(playDidTap), for: .touchUpInside)
         
         footerView.addSubview(playBtn)
         
-        loopBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 55, height: 55))
+        loopBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
         loopBtn.setImage(UIImage(named: "loop_on2"), for: .normal)
         loopBtn.tintColor = .black
         loopBtn.addTarget(self, action: #selector(loopDidTap), for: .touchUpInside)
@@ -134,15 +140,39 @@ class TSMixerTableViewController: UITableViewController, TSEffectsModuleUIInterf
         
         footerView.addSubview(loopBtn)
         
+        
+        resetFXBtn = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 30))
+        resetFXBtn.tintColor = .black
+        resetFXBtn.addTarget(self, action: #selector(resetFXDidTap), for: .touchUpInside)
+        
+        resetFXBtn.setTitle("   Reset   ", for: .normal)
+        resetFXBtn.setTitleColor(.black, for: .normal)
+        resetFXBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .bold)
+        
+        resetFXBtn.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.5).cgColor
+        resetFXBtn.layer.borderWidth = 2
+       
+        resetFXBtn.layer.cornerRadius = 4
+        resetFXBtn.isEnabled = false
+        resetFXBtn.setTitleColor(.lightGray, for: .disabled)
+        
+        footerView.addSubview(resetFXBtn)
+        
         loopBtn.easy.layout(
-            Height(55),
+            Height(44),
             Right(44).to(footerView),
             CenterY(0.0).to(footerView)
         )
         
         playBtn.easy.layout(
-            Height(55),
+            Height(75),
             CenterX(0.0).to(footerView),
+            CenterY(0.0).to(footerView)
+        )
+        
+        resetFXBtn.easy.layout(
+            Height(30),
+            Left(44).to(footerView),
             CenterY(0.0).to(footerView)
         )
         
@@ -151,8 +181,16 @@ class TSMixerTableViewController: UITableViewController, TSEffectsModuleUIInterf
     }
     
     func updateDoneBtn() {
+        let isEnabled = effectsDataSoure.activeEffectsCount() > 0
+        doneBtn.isEnabled = isEnabled
+        resetFXBtn.isEnabled = isEnabled
         
-        doneBtn.isEnabled = effectsDataSoure.activeEffectsCount() > 0
+        
+        if (resetFXBtn.isEnabled) {
+            resetFXBtn.layer.borderColor = UIColor.black.cgColor
+        } else {
+            resetFXBtn.layer.borderColor = UIColor.lightGray.cgColor
+        }
         
         if (doneBtn.isEnabled) {
             doneBtn.layer.borderColor = UIColor.black.cgColor
@@ -177,6 +215,11 @@ class TSMixerTableViewController: UITableViewController, TSEffectsModuleUIInterf
             loopBtn.layer.opacity = 0.4
 
         }
+    }
+    
+    @objc func resetFXDidTap() {
+        
+        delegate?.UIdidTouchResetFX()
     }
     
     @objc func playDidTap() {
@@ -207,7 +250,7 @@ class TSMixerTableViewController: UITableViewController, TSEffectsModuleUIInterf
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return CGFloat( (self.tableView.bounds.size.height - self.tableView.tableHeaderView!.bounds.size.height - self.tableView.tableFooterView!.bounds.size.height - 60) / CGFloat(effectsDataSoure.effectsCount()))
+        return CGFloat( (self.tableView.bounds.size.height - self.tableView.tableHeaderView!.bounds.size.height - self.tableView.tableFooterView!.bounds.size.height - 30) / CGFloat(effectsDataSoure.effectsCount()))
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {

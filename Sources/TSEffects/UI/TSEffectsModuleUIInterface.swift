@@ -25,6 +25,7 @@ protocol TSEffectsModuleUIDelegate: AnyObject {
  
     func UIdidTouchPlay()
     func UIdidTouchLoop()
+    func UIdidTouchResetFX()
     
     
     func UIdidTouchCancel()

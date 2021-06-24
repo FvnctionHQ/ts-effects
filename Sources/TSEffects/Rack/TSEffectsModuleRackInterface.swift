@@ -18,6 +18,7 @@ protocol TSEffectsModuleRackInterface {
     func startRender()
     func stopEffects()
     func changeParameterValue(effectType: TSEffectType, param: TSEffectParameter, newValue: AUValue)
+    func reset()
     
     var isLooping: Bool { get }
     var isPlaying: Bool { get }
@@ -28,6 +29,9 @@ protocol TSEffectsModuleRackInterface {
 
 
 protocol TSEffectsModuleRackDelegate: AnyObject {
+    
+    func effectsRackDidFinishResettingFX()
+    
     func effectsRackDidFinishPlaying()
     func effectsRackDidRender(resultURL: URL)
     func effectsRackDidFail()
