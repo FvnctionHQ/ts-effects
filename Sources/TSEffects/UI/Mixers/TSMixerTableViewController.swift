@@ -276,7 +276,14 @@ class TSMixerTableViewController: UITableViewController, TSEffectsModuleUIInterf
             
             self?.delegate?.UIdidRequestParams(forMixerAtIndex: indexPath.row, in: cell.paramsToggle)
         }
-        cell.backgroundColor = .black
+        
+        
+        if indexPath.row % 2 == 0 {
+            cell.contentView.backgroundColor = UIColor(hexCode: "#101010")
+        } else {
+            cell.contentView.backgroundColor = UIColor(hexCode: "#0D0D0D")
+        }
+        
         cell.selectionStyle = .none
         return cell
     }

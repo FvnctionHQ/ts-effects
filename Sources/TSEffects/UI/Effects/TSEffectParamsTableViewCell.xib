@@ -49,6 +49,7 @@
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="effectParamNameLabel" destination="G1s-yJ-iy4" id="SZx-l0-C25"/>
                 <outlet property="effectParamSlider" destination="laV-8l-5b7" id="m1m-WE-g9k"/>

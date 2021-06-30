@@ -30,10 +30,10 @@ class TSEffectParamsTableViewController: UITableViewController {
         super.viewDidLoad()
 
         let headerView = UIView()
-        headerView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 100)
-        headerView.backgroundColor = .black
+        headerView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 80)
+        headerView.backgroundColor = .white
         selectBtn.setTitle("    \(effectType.rawValue)    ", for: .normal)
-        selectBtn.titleLabel?.font = UIFont.systemFont(ofSize: 24, weight: .heavy)
+        selectBtn.titleLabel?.font = UIFont.systemFont(ofSize: 22, weight: .bold)
         selectBtn.setTitleColor(UIColor.lightGray.withAlphaComponent(0.5), for: .normal)
         
         headerView.addSubview(selectBtn)
@@ -61,7 +61,7 @@ class TSEffectParamsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return CGFloat( ((self.tableView.bounds.size.height - self.tableView.tableHeaderView!.bounds.size.height) - 20) / CGFloat(parameterDataSource.parametersCountFor(effect: effectType)))
+        return CGFloat( ((self.tableView.bounds.size.height - self.tableView.tableHeaderView!.bounds.size.height) - 40) / CGFloat(parameterDataSource.parametersCountFor(effect: effectType)))
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -79,7 +79,7 @@ class TSEffectParamsTableViewController: UITableViewController {
         }
         
         if indexPath.row % 2 == 0 {
-            cell.contentView.backgroundColor = .black
+            cell.contentView.backgroundColor = UIColor(hexCode: "#101010")
         } else {
             cell.contentView.backgroundColor = UIColor(hexCode: "#0D0D0D")
         }
