@@ -24,3 +24,12 @@ public protocol TSEffectsModuleDelegate: AnyObject {
     
 }
 ```
+
+## Apps
+
+Used in following apps:
+
+[Samples](bit.ly/samples-app)
+[Transfer-Samples LE](bit.ly/transfer-samples-LE)
+[Transfer-Samples](bit.ly/transfer-samples)
+
