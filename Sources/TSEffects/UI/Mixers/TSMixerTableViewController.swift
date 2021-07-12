@@ -96,7 +96,8 @@ class TSMixerTableViewController: UITableViewController, TSEffectsModuleUIInterf
         headerView.addSubview(doneBtn)
         
         selectBtn.easy.layout(
-          Height(34),
+            Height(34),
+            Width(<=200),
             CenterX(0.0).to(headerView),
             CenterY(0.0).to(headerView)
         )

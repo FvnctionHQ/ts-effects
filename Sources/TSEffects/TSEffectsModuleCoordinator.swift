@@ -113,6 +113,7 @@ extension TSEffectsModuleCoordinator: TSEffectsModuleUIDelegate {
     }
     
     func UIdidTouchDone() {
+        effectsLogic.stop()
         effectsLogic.startRender()
     }
     
