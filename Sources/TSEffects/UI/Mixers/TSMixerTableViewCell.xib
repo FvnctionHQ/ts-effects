@@ -13,33 +13,30 @@
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TSMixerTableViewCell" rowHeight="110" id="KGk-i7-Jjw" customClass="TSMixerTableViewCell" customModule="TSEffects">
             <rect key="frame" x="0.0" y="0.0" width="412" height="110"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
                 <rect key="frame" x="0.0" y="0.0" width="412" height="110"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="9sa-Eg-Bq1">
-                        <rect key="frame" x="45.5" y="56" width="320" height="30"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="29" id="Xqz-qa-wzM"/>
-                        </constraints>
+                        <rect key="frame" x="45.5" y="0.0" width="320" height="111"/>
                         <connections>
                             <action selector="didChange:" destination="KGk-i7-Jjw" eventType="valueChanged" id="lYp-N8-orM"/>
                         </connections>
                     </slider>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DRY" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a66-ax-4Xh">
-                        <rect key="frame" x="22" y="65.5" width="17.5" height="10"/>
+                        <rect key="frame" x="22" y="50" width="17.5" height="10"/>
                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="8"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WET" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f4f-dW-gBk">
-                        <rect key="frame" x="371.5" y="65.5" width="18.5" height="10"/>
+                        <rect key="frame" x="371.5" y="50" width="18.5" height="10"/>
                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="8"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iHP-0g-2wT" customClass="TSButton" customModule="TSUtils">
-                        <rect key="frame" x="185.5" y="22" width="41" height="26"/>
+                        <rect key="frame" x="185.5" y="4" width="41" height="26"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="26" id="6PH-Pw-b3n"/>
                         </constraints>
@@ -51,13 +48,13 @@
                     </button>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="9sa-Eg-Bq1" firstAttribute="top" secondItem="iHP-0g-2wT" secondAttribute="bottom" constant="8" symbolic="YES" id="AIl-mE-ULq"/>
+                    <constraint firstItem="9sa-Eg-Bq1" firstAttribute="top" secondItem="iHP-0g-2wT" secondAttribute="bottom" constant="-30" id="AIl-mE-ULq"/>
+                    <constraint firstItem="9sa-Eg-Bq1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="GxU-Ry-UXL"/>
                     <constraint firstItem="a66-ax-4Xh" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="22" id="JjF-Ui-uk2"/>
                     <constraint firstItem="f4f-dW-gBk" firstAttribute="leading" secondItem="9sa-Eg-Bq1" secondAttribute="trailing" constant="8" symbolic="YES" id="KdY-E0-8Cp"/>
                     <constraint firstItem="iHP-0g-2wT" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="S8a-zr-BoS"/>
-                    <constraint firstItem="iHP-0g-2wT" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="22" id="WUk-d8-JAn"/>
                     <constraint firstItem="9sa-Eg-Bq1" firstAttribute="leading" secondItem="a66-ax-4Xh" secondAttribute="trailing" constant="8" symbolic="YES" id="bs5-dH-dpo"/>
-                    <constraint firstAttribute="bottom" secondItem="9sa-Eg-Bq1" secondAttribute="bottom" constant="34" id="cwG-kk-Tbh"/>
+                    <constraint firstAttribute="bottom" secondItem="9sa-Eg-Bq1" secondAttribute="bottom" id="cwG-kk-Tbh"/>
                     <constraint firstAttribute="trailing" secondItem="f4f-dW-gBk" secondAttribute="trailing" constant="22" id="jLT-D3-zWo"/>
                     <constraint firstItem="a66-ax-4Xh" firstAttribute="baseline" secondItem="f4f-dW-gBk" secondAttribute="baseline" id="liT-tb-fYo"/>
                     <constraint firstItem="a66-ax-4Xh" firstAttribute="centerY" secondItem="9sa-Eg-Bq1" secondAttribute="centerY" id="qri-Lr-yLx"/>

@@ -251,7 +251,12 @@ class TSMixerTableViewController: UITableViewController, TSEffectsModuleUIInterf
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return CGFloat( (self.tableView.bounds.size.height - self.tableView.tableHeaderView!.bounds.size.height - self.tableView.tableFooterView!.bounds.size.height - 30) / CGFloat(effectsDataSoure.effectsCount()))
+        
+        let screenFitCellHeight = CGFloat( (self.tableView.bounds.size.height - self.tableView.tableHeaderView!.bounds.size.height - self.tableView.tableFooterView!.bounds.size.height - 30) / CGFloat(effectsDataSoure.effectsCount()))
+        
+        let minHeight: CGFloat = 44
+        
+        return max(minHeight,screenFitCellHeight)
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
